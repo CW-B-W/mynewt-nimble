@@ -49,6 +49,11 @@ nimble_port_init(void)
 #endif
 }
 
+void nimble_port_deinit(void)
+{
+#warning "nimble_port.c: nimble_port_deinit(void) has not been implemented"
+}
+
 void
 nimble_port_run(void)
 {
@@ -58,6 +63,12 @@ nimble_port_run(void)
         ev = ble_npl_eventq_get(&g_eventq_dflt, BLE_NPL_TIME_FOREVER);
         ble_npl_event_run(ev);
     }
+}
+
+int nimble_port_stop(void)
+{
+#warning "nimble_port.c: nimble_port_stop(void) has not been implemented"
+    return 0;
 }
 
 struct ble_npl_eventq *

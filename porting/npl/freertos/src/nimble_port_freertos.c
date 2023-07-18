@@ -49,3 +49,8 @@ nimble_port_freertos_init(TaskFunction_t host_task_fn)
     xTaskCreate(host_task_fn, "ble", configMINIMAL_STACK_SIZE + 400,
                 NULL, tskIDLE_PRIORITY + 1, &host_task_h);
 }
+
+void nimble_port_freertos_deinit()
+{
+#warning "nimble_port_freertos.c: nimble_port_freertos_deinit() has not been implemented"
+}
