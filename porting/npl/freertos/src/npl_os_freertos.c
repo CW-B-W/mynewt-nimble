@@ -25,8 +25,7 @@
 static inline bool
 in_isr(void)
 {
-    /* XXX hw specific! */
-    return (SCB->ICSR & SCB_ICSR_VECTACTIVE_Msk) != 0;
+    return xPortInIsrContext();
 }
 
 struct ble_npl_event *
@@ -115,7 +114,8 @@ npl_freertos_eventq_remove(struct ble_npl_eventq *evq,
 
         portYIELD_FROM_ISR(woken);
     } else {
-        vPortEnterCritical();
+        static portMUX_TYPE lock;
+        vPortEnterCritical(&lock);
 
         count = uxQueueMessagesWaiting(evq->q);
         for (i = 0; i < count; i++) {
@@ -130,7 +130,7 @@ npl_freertos_eventq_remove(struct ble_npl_eventq *evq,
             assert(ret == pdPASS);
         }
 
-        vPortExitCritical();
+        vPortExitCritical(&lock);
     }
 
     ev->queued = 0;
