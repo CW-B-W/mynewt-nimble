@@ -115,7 +115,7 @@ npl_freertos_eventq_remove(struct ble_npl_eventq *evq,
         portYIELD_FROM_ISR(woken);
     } else {
         static portMUX_TYPE lock;
-        vPortEnterCritical(&lock);
+        taskENTER_CRITICAL(&lock);
 
         count = uxQueueMessagesWaiting(evq->q);
         for (i = 0; i < count; i++) {
@@ -130,7 +130,7 @@ npl_freertos_eventq_remove(struct ble_npl_eventq *evq,
             assert(ret == pdPASS);
         }
 
-        vPortExitCritical(&lock);
+        taskEXIT_CRITICAL(&lock);
     }
 
     ev->queued = 0;

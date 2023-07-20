@@ -197,6 +197,11 @@ ble_npl_callout_init(struct ble_npl_callout *co, struct ble_npl_eventq *evq,
     npl_freertos_callout_init(co, evq, ev_cb, ev_arg);
 }
 
+static inline void ble_npl_callout_deinit(struct ble_npl_callout *co)
+{
+#warning "nimble_npl_os.h: ble_npl_callout_deinit(struct ble_npl_callout) has not been implemented"
+}
+
 static inline ble_npl_error_t
 ble_npl_callout_reset(struct ble_npl_callout *co, ble_npl_time_t ticks)
 {
@@ -278,18 +283,18 @@ ble_npl_hw_set_isr(int irqn, void (*addr)(void))
 }
 #endif
 
+static portMUX_TYPE ble_npl_hw_critical_lock = portMUX_INITIALIZER_UNLOCKED;
 static inline uint32_t
 ble_npl_hw_enter_critical(void)
 {
-    vPortEnterCritical();
+    taskENTER_CRITICAL(&ble_npl_hw_critical_lock);
     return 0;
 }
 
 static inline void
 ble_npl_hw_exit_critical(uint32_t ctx)
 {
-    vPortExitCritical();
-
+    taskEXIT_CRITICAL(&ble_npl_hw_critical_lock);
 }
 
 #ifdef __cplusplus
