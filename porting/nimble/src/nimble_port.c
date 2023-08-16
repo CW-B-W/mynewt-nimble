@@ -37,6 +37,7 @@ nimble_port_init(void)
     /* Initialize default event queue */
     ble_npl_eventq_init(&g_eventq_dflt);
     /* Initialize the global memory pool */
+    os_mempool_module_init();
     os_msys_init();
     /* Initialize the host */
     ble_hs_init();
