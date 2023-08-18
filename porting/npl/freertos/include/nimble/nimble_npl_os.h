@@ -283,18 +283,17 @@ ble_npl_hw_set_isr(int irqn, void (*addr)(void))
 }
 #endif
 
-static portMUX_TYPE ble_npl_hw_critical_lock = portMUX_INITIALIZER_UNLOCKED;
 static inline uint32_t
 ble_npl_hw_enter_critical(void)
 {
-    taskENTER_CRITICAL(&ble_npl_hw_critical_lock);
+    taskENTER_CRITICAL();
     return 0;
 }
 
 static inline void
 ble_npl_hw_exit_critical(uint32_t ctx)
 {
-    taskEXIT_CRITICAL(&ble_npl_hw_critical_lock);
+    taskEXIT_CRITICAL();
 
 }
 
